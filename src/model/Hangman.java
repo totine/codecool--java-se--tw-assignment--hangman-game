@@ -10,10 +10,12 @@ public class Hangman {
 	static ArrayList<String> words = new ArrayList<>(Arrays.asList("WARSAW", "SOFIA", "PARIS"));
 	ArrayList<String> usedLetters = new ArrayList<String>();
 	String word;
+	Integer lives;
     
     public Hangman() {
     	Random indexGenerator = new Random();
     	this.word = words.get(indexGenerator.nextInt(words.size()));
+    	this.lives = 5;
     }
 
     public String dashes() {
@@ -26,7 +28,15 @@ public class Hangman {
         return this.word;
 
     }
+
+    public Integer getLives() {
+        return this.lives;
+    }
     public ArrayList<String> getUsedLetters() {
         return this.usedLetters;
+    }
+
+    public void removeLive () {
+        this.lives--;
     }
 }

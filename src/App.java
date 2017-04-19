@@ -9,21 +9,54 @@ public class App {
 
 	public static void main(String[] args) {
 		Hangman hangman = new Hangman();
+		String option;
 		String letter;
-		while (hangman.dashes() != hangman.getWord()) {
+		String word= "";
+		while (hangman.dashes() != hangman.getWord() && hangman.getLives()>0 &&  !hangman.getWord().equals(word)) {
 			System.out.println(hangman.getWord());
+			System.out.println("Option (1) - input letter \nOption (2) - input all word");
 			Scanner input = new Scanner(System.in);
-			letter = input.nextLine();
-			System.out.println(letter);
-			hangman.getUsedLetters().add(letter);
+			option = input.nextLine();
+			System.out.println(option);
+
+			if (option.equals("1")) {
+				System.out.println("Input letter: ");
+				Scanner inputLetter = new Scanner(System.in);
+				letter = inputLetter.nextLine();
+				if (!hangman.getWord().contains(letter.toUpperCase()))
+					hangman.removeLive();
+				System.out.println(letter);
+				hangman.getUsedLetters().add(letter);
+
+
+			}
+			if (option.equals("2")) {
+				Scanner inputWord = new Scanner(System.in);
+				word = inputWord.nextLine().toUpperCase();
+				if (hangman.getWord()!=word)
+					hangman.removeLive();
+				System.out.println(word);
+
+
+
+			}
 			System.out.println(hangman.dashes());
+			System.out.println(hangman.getLives());
+
 		}
 		
 		
 		System.out.println(hangman.getUsedLetters());
 		System.out.println(hangman.dashes());
+		if (hangman.getLives() == 0) {
+			System.out.println("You lost!");
+			System.out.println("Correct word is " + hangman.getWord());
+		}
+		else {
+			System.out.println("You win!");
+		}
 	}
-  	
+
     
 }
 
