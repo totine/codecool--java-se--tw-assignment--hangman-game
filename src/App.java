@@ -79,6 +79,7 @@ public class App {
 	    App game = new App(player);
 	    while (game.isContinue) {
             game.gameLoop();
+            game.hangman = new Hangman();
         }
 
 
