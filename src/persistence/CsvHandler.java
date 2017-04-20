@@ -54,17 +54,16 @@ public class CsvHandler {
 
     public ArrayList<String> getWordListForLevel(String level) {
 
-        ArrayList<String> wordsList = new ArrayList<String>()
         String europe = new String("../../resources/europe.csv");
         String americas = new String("../../resources/americas.csv");
         String africa = new String("../../resources/africa.csv");
 
         if (level == "easy"){
-            return readFile(europe)
+            return readFile(europe);
         } else if (level == "medium"){
-            return readFile(europe).addAll(readFile(americas)
+            return readFile(europe).addAll(readFile(americas));
         } else if (level == "hard") {
-            return readFile(europe).addAll(readFile(americas).addAll(readFile(africa))
+            return readFile(europe).addAll(readFile(americas)).addAll(readFile(africa));
         }
     }
 
