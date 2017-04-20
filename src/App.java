@@ -3,9 +3,11 @@ import java.util.Scanner;
 import model.Hangman;
 import model.Player;
 import model.level.*;
+import view.UI;
 
 
 public class App {
+    private static Boolean isCheat = false;
     private Level level;
     private Hangman hangman;
     private Player player;
@@ -22,12 +24,15 @@ public class App {
         String option;
         String letter;
         String word = "";
-        System.out.println("Hello, " + this.player.getName());
+        UI.clearScreen();
+        sayHelloToPlayer();
+
         while (!hangman.dashes().equals(hangman.getWord()) && hangman.getLives() > 0 && !hangman.getWord().equals(word)) {
-            System.out.println("cheat: " + hangman.getWord());
+            if (isCheat)
+                System.out.println("cheat: " + hangman.getWord());
             System.out.println("Your chances: " + hangman.getLives());
             if (hangman.getUsedLetters().size() != 0){
-                System.out.println("Letters you already used: " + hangman.getUsedLetters());
+                System.out.println("Letters you already used: " + hangman.getUsedLettersInPrettyForm());
             }
             System.out.println(hangman.dashes());
 
@@ -41,7 +46,7 @@ public class App {
                 letter = inputLetter.nextLine();
                 if (!hangman.getWord().contains(letter.toUpperCase()))
                     hangman.removeLive();
-                hangman.getUsedLetters().add(letter);
+                hangman.addLetterToUsedLetter(letter);
 
             }
             if (option.equals("2")) {
@@ -52,6 +57,7 @@ public class App {
                     hangman.removeLive();
 
             }
+            UI.clearScreen();
         }
 
 
@@ -92,6 +98,10 @@ public class App {
         return level;
     }
 
+    private void sayHelloToPlayer(){
+        System.out.println("Hello, " + this.player.getName());
+    }
+
     private void setHangman(Level level) {
         this.hangman = new Hangman(level);
     }
@@ -101,6 +111,9 @@ public class App {
     }
 
     public static void main(String[] args) {
+        if (args.length>0 && args[0].trim().equals("cheat") ) {
+            isCheat = true;
+        }
         Player player = Player.addNewPlayer();
         Level level = chooseLevel();
         App game = new App(player, level);

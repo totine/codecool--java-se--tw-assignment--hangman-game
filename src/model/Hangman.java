@@ -36,7 +36,16 @@ public class Hangman {
         return this.usedLetters;
     }
 
+    public String getUsedLettersInPrettyForm() {
+        this.usedLetters.sort(String::compareToIgnoreCase);
+        return String.join(", ", this.usedLetters );
+    }
+
     public void removeLive () {
         this.lives--;
+    }
+
+    public void addLetterToUsedLetter(String letter) {
+        this.usedLetters.add(letter.toUpperCase());
     }
 }
