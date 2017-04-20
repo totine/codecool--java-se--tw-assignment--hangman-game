@@ -12,8 +12,13 @@ public class Player {
     public static String inputPlayerName() {
         System.out.println("Enter player name: ");
         Scanner inputName = new Scanner(System.in);
-        String name = inputName.nextLine();
-        return name;
+        return inputName.nextLine();
+    }
+
+    public static Player addNewPlayer() {
+         String name = inputPlayerName();
+         return new Player(name);
+
     }
 
     public String getName() {

@@ -100,12 +100,14 @@ public class App {
     public void setHangman(Level level) {
         this.hangman = new Hangman(level);
     }
+    public Boolean getIsContinue(){
+        return this.isContinue;
+    }
 	public static void main(String[] args) {
-	    String playerName = Player.inputPlayerName();
-	    Player player = new Player(playerName);
+	    Player player = Player.addNewPlayer();
 	    Level level = chooseLevel();
         App game = new App(player, level);
-	    while (game.isContinue) {
+	    while (game.getIsContinue()) {
             game.gameLoop();
 
         }
