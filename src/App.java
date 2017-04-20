@@ -77,12 +77,14 @@ public class App {
             this.isContinue = false;
             System.out.println("See you next time!");
         }
+        else {
+            level = chooseLevel();
+            setHangman(level);
+        }
     }
 
-	public static void main(String[] args) {
-	    String playerName = Player.inputPlayerName();
-	    Player player = new Player(playerName);
-	    String choosenLevel = Level.inputLevel();
+    public static Level chooseLevel(){
+        String choosenLevel = Level.inputLevel();
         Level level = new LevelEasy();
         if (choosenLevel.equals("1")) {
             level = new LevelEasy();
@@ -93,6 +95,15 @@ public class App {
         else if (choosenLevel.equals("3")) {
             level = new LevelHard();
         }
+        return level;
+    }
+    public void setHangman(Level level) {
+        this.hangman = new Hangman(level);
+    }
+	public static void main(String[] args) {
+	    String playerName = Player.inputPlayerName();
+	    Player player = new Player(playerName);
+	    Level level = chooseLevel();
         App game = new App(player, level);
 	    while (game.isContinue) {
             game.gameLoop();
