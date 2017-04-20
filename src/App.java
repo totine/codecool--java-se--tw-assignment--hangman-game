@@ -1,32 +1,29 @@
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
-import java.util.regex.*;
-import java.util.Random;
+
 import model.Hangman;
 import model.Player;
 import model.level.*;
 
 
 public class App {
-    Level level;
-	private Hangman hangman;
-	Player player;
-	Boolean isContinue;
+    private Level level;
+    private Hangman hangman;
+    private Player player;
+    private Boolean isContinue;
 
-	private App(Player player, Level level){
-	    this.level = level;
-		this.hangman = new Hangman(this.level);
-		this.player = player;
-		this.isContinue = true;
-	}
+    private App(Player player, Level level) {
+        this.level = level;
+        this.hangman = new Hangman(this.level);
+        this.player = player;
+        this.isContinue = true;
+    }
 
-	private void gameLoop() {
+    private void gameLoop() {
         String option;
         String letter;
         String word = "";
         System.out.println("Hello, " + this.player.getName());
-        while (hangman.dashes() != hangman.getWord() && hangman.getLives() > 0 && !hangman.getWord().equals(word)) {
+        while (!hangman.dashes().equals(hangman.getWord()) && hangman.getLives() > 0 && !hangman.getWord().equals(word)) {
             System.out.println(hangman.getWord());
 
             System.out.println("Option (1) - input letter \nOption (2) - input all word");
@@ -49,7 +46,7 @@ public class App {
                 System.out.println("Try to guess all word: ");
                 Scanner inputWord = new Scanner(System.in);
                 word = inputWord.nextLine().toUpperCase();
-                if (hangman.getWord() != word)
+                if (!hangman.getWord().equals(word))
                     hangman.removeLive();
                 System.out.println(word);
 
@@ -66,8 +63,7 @@ public class App {
         if (hangman.getLives() == 0) {
             System.out.println("You lost!");
             System.out.println("Correct word is " + hangman.getWord());
-        }
-        else {
+        } else {
             System.out.println("You win!");
         }
         System.out.println("Continue? y/n");
@@ -76,45 +72,48 @@ public class App {
         if (isContinue.equals("n")) {
             this.isContinue = false;
             System.out.println("See you next time!");
-        }
-        else {
+        } else {
             level = chooseLevel();
             setHangman(level);
         }
     }
 
-    public static Level chooseLevel(){
+    private static Level chooseLevel() {
         String choosenLevel = Level.inputLevel();
         Level level = new LevelEasy();
-        if (choosenLevel.equals("1")) {
-            level = new LevelEasy();
-        }
-        else if (choosenLevel.equals("2")) {
-            level = new LevelMedium();
-        }
-        else if (choosenLevel.equals("3")) {
-            level = new LevelHard();
+        switch (choosenLevel) {
+            case "1":
+                level = new LevelEasy();
+                break;
+            case "2":
+                level = new LevelMedium();
+                break;
+            case "3":
+                level = new LevelHard();
+                break;
         }
         return level;
     }
-    public void setHangman(Level level) {
+
+    private void setHangman(Level level) {
         this.hangman = new Hangman(level);
     }
-    public Boolean getIsContinue(){
+
+    private Boolean getIsContinue() {
         return this.isContinue;
     }
-	public static void main(String[] args) {
-	    Player player = Player.addNewPlayer();
-	    Level level = chooseLevel();
-        App game = new App(player, level);
-	    while (game.getIsContinue()) {
-            game.gameLoop();
 
+    public static void main(String[] args) {
+        Player player = Player.addNewPlayer();
+        Level level = chooseLevel();
+        App game = new App(player, level);
+        while (game.getIsContinue()) {
+            game.gameLoop();
         }
 
 
-	}
+    }
 
-    
+
 }
 
