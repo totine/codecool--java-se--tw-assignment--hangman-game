@@ -24,12 +24,16 @@ public class App {
         String word = "";
         System.out.println("Hello, " + this.player.getName());
         while (!hangman.dashes().equals(hangman.getWord()) && hangman.getLives() > 0 && !hangman.getWord().equals(word)) {
-            System.out.println(hangman.getWord());
+            System.out.println("cheat: " + hangman.getWord());
+            System.out.println("Your chances: " + hangman.getLives());
+            if (hangman.getUsedLetters().size() != 0){
+                System.out.println("Letters you already used: " + hangman.getUsedLetters());
+            }
+            System.out.println(hangman.dashes());
 
             System.out.println("Option (1) - input letter \nOption (2) - input all word");
             Scanner input = new Scanner(System.in);
             option = input.nextLine();
-            System.out.println(option);
 
             if (option.equals("1")) {
                 System.out.println("Input letter: ");
@@ -37,9 +41,7 @@ public class App {
                 letter = inputLetter.nextLine();
                 if (!hangman.getWord().contains(letter.toUpperCase()))
                     hangman.removeLive();
-                System.out.println(letter);
                 hangman.getUsedLetters().add(letter);
-
 
             }
             if (option.equals("2")) {
@@ -48,22 +50,17 @@ public class App {
                 word = inputWord.nextLine().toUpperCase();
                 if (!hangman.getWord().equals(word))
                     hangman.removeLive();
-                System.out.println(word);
-
 
             }
-            System.out.println(hangman.dashes());
-            System.out.println(hangman.getLives());
-
         }
 
 
-        System.out.println(hangman.getUsedLetters());
-        System.out.println(hangman.dashes());
+
         if (hangman.getLives() == 0) {
             System.out.println("You lost!");
             System.out.println("Correct word is " + hangman.getWord());
         } else {
+            System.out.println(hangman.dashes());
             System.out.println("You win!");
         }
         System.out.println("Continue? y/n");
@@ -116,4 +113,3 @@ public class App {
 
 
 }
-

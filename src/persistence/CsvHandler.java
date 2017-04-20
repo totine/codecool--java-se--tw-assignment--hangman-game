@@ -49,7 +49,6 @@ public class CsvHandler {
              System.out.println("Error while closing file!");
              System.exit(3);
             }
-        System.out.println(wordsList);
         return wordsList;
     }
 
