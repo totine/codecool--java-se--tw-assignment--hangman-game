@@ -31,9 +31,7 @@ public class Level {
         return words.get(indexGenerator.nextInt(words.size()));
     }
 
-    public static void main(String[] args) {
 
-    }
     public Integer getLives(){
         return this.lives;
     }

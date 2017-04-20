@@ -17,7 +17,7 @@ public class CsvHandler {
     public static ArrayList <String> readFile(String filename) {
 
         FileReader fr = null;
-        String linia = "";
+        String line = "";
         ArrayList<String> wordsList = new ArrayList<String>();
 
         // opening file
@@ -32,8 +32,8 @@ public class CsvHandler {
 
         // reading file
         try {
-         while((linia = bfr.readLine()) != null){
-            List<String> stringList = Arrays.asList(linia.split(","));
+         while((line = bfr.readLine()) != null){
+            List<String> stringList = Arrays.asList(line.split(","));
             wordsList.add(stringList.get(1));
 
          }
