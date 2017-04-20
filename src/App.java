@@ -22,7 +22,6 @@ public class App {
 
     private void gameLoop() {
         String option;
-        String letter;
         String word = "";
         UI.clearScreen();
         sayHelloToPlayer();
@@ -39,23 +38,13 @@ public class App {
             System.out.println("Option (1) - input letter \nOption (2) - input all word");
             Scanner input = new Scanner(System.in);
             option = input.nextLine();
-
-            if (option.equals("1")) {
-                System.out.println("Input letter: ");
-                Scanner inputLetter = new Scanner(System.in);
-                letter = inputLetter.nextLine();
-                if (!hangman.getWord().contains(letter.toUpperCase()))
-                    hangman.removeLive();
-                hangman.addLetterToUsedLetter(letter);
-
-            }
-            if (option.equals("2")) {
-                System.out.println("Try to guess all word: ");
-                Scanner inputWord = new Scanner(System.in);
-                word = inputWord.nextLine().toUpperCase();
-                if (!hangman.getWord().equals(word))
-                    hangman.removeLive();
-
+            switch (option) {
+                case "1":
+                    letterTry();
+                    break;
+                case "2":
+                    word = wordAnswer();
+                    break;
             }
             UI.clearScreen();
         }
@@ -98,6 +87,24 @@ public class App {
         return level;
     }
 
+    public void letterTry() {
+        System.out.println("Input letter: ");
+        Scanner inputLetter = new Scanner(System.in);
+        String letter = inputLetter.nextLine();
+        if (!hangman.getWord().contains(letter.toUpperCase()))
+            hangman.removeLive();
+        hangman.addLetterToUsedLetter(letter);
+    }
+
+    public String wordAnswer() {
+        System.out.println("Try to guess all word: ");
+        Scanner inputWord = new Scanner(System.in);
+        String word = inputWord.nextLine().toUpperCase();
+        if (!hangman.getWord().equals(word))
+            hangman.removeLive();
+        return word;
+    }
+
     private void sayHelloToPlayer(){
         System.out.println("Hello, " + this.player.getName());
     }
@@ -114,6 +121,7 @@ public class App {
         if (args.length>0 && args[0].trim().equals("cheat") ) {
             isCheat = true;
         }
+        UI.clearScreen();
         Player player = Player.addNewPlayer();
         Level level = chooseLevel();
         App game = new App(player, level);
