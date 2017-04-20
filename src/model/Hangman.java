@@ -5,17 +5,17 @@ import java.util.Arrays;
 import java.util.Scanner;
 import java.util.regex.*;
 import java.util.Random;
+import model.level.*;
 
 public class Hangman {
-	static ArrayList<String> words = new ArrayList<>(Arrays.asList("WARSAW", "SOFIA", "PARIS"));
 	ArrayList<String> usedLetters = new ArrayList<String>();
 	String word;
 	Integer lives;
     
-    public Hangman() {
-    	Random indexGenerator = new Random();
-    	this.word = words.get(indexGenerator.nextInt(words.size()));
-    	this.lives = 5;
+    public Hangman(Level level) {
+
+    	this.word = level.getWordToGuess();
+    	this.lives = level.getLives();
     }
 
     public String dashes() {

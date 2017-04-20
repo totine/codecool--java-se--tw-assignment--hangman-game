@@ -5,14 +5,18 @@ import java.util.regex.*;
 import java.util.Random;
 import model.Hangman;
 import model.Player;
+import model.level.*;
+
 
 public class App {
+    Level level;
 	private Hangman hangman;
 	Player player;
 	Boolean isContinue;
 
-	private App(Player player){
-		this.hangman = new Hangman();
+	private App(Player player, Level level){
+	    this.level = level;
+		this.hangman = new Hangman(this.level);
 		this.player = player;
 		this.isContinue = true;
 	}
@@ -21,9 +25,10 @@ public class App {
         String option;
         String letter;
         String word = "";
+        System.out.println("Hello, " + this.player.getName());
         while (hangman.dashes() != hangman.getWord() && hangman.getLives() > 0 && !hangman.getWord().equals(word)) {
             System.out.println(hangman.getWord());
-            System.out.println("Hello, " + this.player.getName());
+
             System.out.println("Option (1) - input letter \nOption (2) - input all word");
             Scanner input = new Scanner(System.in);
             option = input.nextLine();
@@ -61,7 +66,8 @@ public class App {
         if (hangman.getLives() == 0) {
             System.out.println("You lost!");
             System.out.println("Correct word is " + hangman.getWord());
-        } else {
+        }
+        else {
             System.out.println("You win!");
         }
         System.out.println("Continue? y/n");
@@ -76,10 +82,21 @@ public class App {
 	public static void main(String[] args) {
 	    String playerName = Player.inputPlayerName();
 	    Player player = new Player(playerName);
-	    App game = new App(player);
+	    String choosenLevel = Level.inputLevel();
+        Level level;
+        if (choosenLevel.equals("1")) {
+            level = new LevelEasy();
+        }
+        if (choosenLevel.equals("2")) {
+            level = new LevelMedium();
+        }
+        if (choosenLevel.equals("3")) {
+            level = new LevelHard();
+        }
+        App game = new App(player, level);
 	    while (game.isContinue) {
             game.gameLoop();
-            game.hangman = new Hangman();
+
         }
 
 
