@@ -1,23 +1,24 @@
+package persistence;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.HashMap;
 import java.io.BufferedReader;
 import java.util.ArrayList;
 
 public class CsvHandler {
 
     public static void main(String[] args) {
-        readFile(filename);
+
     }
 
-    public static List <String> readFile(String filename) {
+    public static ArrayList <String> readFile(String filename) {
 
         FileReader fr = null;
         String linia = "";
-        List<String> wordsList = new ArrayList<String>();
+        ArrayList<String> wordsList = new ArrayList<String>();
 
         // opening file
         try {
@@ -52,19 +53,22 @@ public class CsvHandler {
         return wordsList;
     }
 
-    public ArrayList<String> getWordListForLevel(String level) {
+    public static ArrayList<String> getWordListForLevel(String level) {
 
-        String europe = new String("../../resources/europe.csv");
-        String americas = new String("../../resources/americas.csv");
-        String africa = new String("../../resources/africa.csv");
+        String europe = "resources/europe.csv";
+        String americas = "resources/americas.csv";
+        String africa = "resources/africa.csv";
 
-        if (level == "easy"){
-            return readFile(europe);
-        } else if (level == "medium"){
-            return readFile(europe).addAll(readFile(americas));
-        } else if (level == "hard") {
-            return readFile(europe).addAll(readFile(americas)).addAll(readFile(africa));
+        ArrayList<String> wordsToReturn = readFile(europe);
+        if (level.equals("easy")) {
+        } else if (level.equals("medium")) {
+            wordsToReturn.addAll(readFile(americas));
+        } else if (level.equals("hard")) {
+            wordsToReturn.addAll(readFile(americas));
+            wordsToReturn.addAll(readFile(africa));
         }
+
+        return wordsToReturn;
     }
 
 

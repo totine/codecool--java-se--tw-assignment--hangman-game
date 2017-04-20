@@ -18,7 +18,8 @@ public class Level {
             System.out.println("Choose level: ");
             Scanner inputLevel = new Scanner(System.in);
             choosenLevel = inputLevel.nextLine().trim();
-        } while (InputController.IsValidOptionNumber(choosenLevel, 3));
+
+        } while (!InputController.IsValidOptionNumber(choosenLevel, 3));
         return choosenLevel;
     }
 
@@ -30,6 +31,9 @@ public class Level {
         return words.get(indexGenerator.nextInt(words.size()));
     }
 
+    public static void main(String[] args) {
+
+    }
     public Integer getLives(){
         return this.lives;
     }

@@ -83,14 +83,14 @@ public class App {
 	    String playerName = Player.inputPlayerName();
 	    Player player = new Player(playerName);
 	    String choosenLevel = Level.inputLevel();
-        Level level;
+        Level level = new LevelEasy();
         if (choosenLevel.equals("1")) {
             level = new LevelEasy();
         }
-        if (choosenLevel.equals("2")) {
+        else if (choosenLevel.equals("2")) {
             level = new LevelMedium();
         }
-        if (choosenLevel.equals("3")) {
+        else if (choosenLevel.equals("3")) {
             level = new LevelHard();
         }
         App game = new App(player, level);

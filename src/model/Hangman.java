@@ -20,7 +20,7 @@ public class Hangman {
 
     public String dashes() {
     	String used = String.join("", usedLetters);
-    	Pattern p = Pattern.compile("[^ " + used + "]", Pattern.CASE_INSENSITIVE);
+    	Pattern p = Pattern.compile("[^ '"+ used + "]", Pattern.CASE_INSENSITIVE);
     	return p.matcher(this.word).replaceAll("_ ");
     }
 
