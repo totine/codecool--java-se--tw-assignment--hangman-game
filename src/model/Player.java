@@ -1,6 +1,8 @@
 package model;
 
 import java.util.Scanner;
+import controller.InputController;
+import view.UI;
 
 public class Player {
      String name;
@@ -16,7 +18,12 @@ public class Player {
     }
 
     public static Player addNewPlayer() {
-         String name = inputPlayerName();
+         String name = inputPlayerName().trim();
+         while (!InputController.isValidName(name)) {
+             UI.clearScreen();
+             System.out.println("Name should have almost 3 letters or digits or underscore (no spaces and special chars allowed). Try again.");
+             name = inputPlayerName().trim();
+         }
          return new Player(name);
 
     }

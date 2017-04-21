@@ -1,5 +1,6 @@
 import java.util.Scanner;
 
+import controller.InputController;
 import model.Hangman;
 import model.Player;
 import model.level.*;
@@ -29,15 +30,8 @@ public class App {
         while (!hangman.dashes().equals(hangman.getWord()) && hangman.getLives() > 0 && !hangman.getWord().equals(word)) {
             if (isCheat)
                 System.out.println("cheat: " + hangman.getWord());
-            System.out.println("Your chances: " + hangman.getLives());
-            if (hangman.getUsedLetters().size() != 0){
-                System.out.println("Letters you already used: " + hangman.getUsedLettersInPrettyForm());
-            }
-            System.out.println(hangman.dashes());
-
-            System.out.println("Option (1) - input letter \nOption (2) - input all word");
-            Scanner input = new Scanner(System.in);
-            option = input.nextLine();
+            showHangmanInfo();
+            option = askForTryOption();
             switch (option) {
                 case "1":
                     letterTry();
@@ -46,28 +40,13 @@ public class App {
                     word = wordAnswer();
                     break;
             }
-            UI.clearScreen();
-        }
 
-
-
-        if (hangman.getLives() == 0) {
-            System.out.println("You lost!");
-            System.out.println("Correct word is " + hangman.getWord());
-        } else {
-            System.out.println(hangman.dashes());
-            System.out.println("You win!");
         }
-        System.out.println("Continue? y/n");
-        Scanner inputIsContinue = new Scanner(System.in);
-        String isContinue = inputIsContinue.nextLine().toLowerCase().trim();
-        if (isContinue.equals("n")) {
-            this.isContinue = false;
-            System.out.println("See you next time!");
-        } else {
-            level = chooseLevel();
-            setHangman(level);
-        }
+        if (hangman.getLives() == 0)
+            showLostInfo();
+        else
+            showWinInfo();
+        askAboutContinueGame();
     }
 
     private static Level chooseLevel() {
@@ -87,16 +66,39 @@ public class App {
         return level;
     }
 
-    public void letterTry() {
-        System.out.println("Input letter: ");
-        Scanner inputLetter = new Scanner(System.in);
-        String letter = inputLetter.nextLine();
-        if (!hangman.getWord().contains(letter.toUpperCase()))
-            hangman.removeLive();
-        hangman.addLetterToUsedLetter(letter);
+    private void showHangmanInfo() {
+        System.out.println("Your chances: " + hangman.getLives());
+        if (hangman.getUsedLetters().size() != 0){
+            System.out.println("Letters you already used: " + hangman.getUsedLettersInPrettyForm());
+        }
+        System.out.println(hangman.dashes());
     }
 
-    public String wordAnswer() {
+    private void letterTry() {
+        UI.showAskForLetterInput();
+        Scanner inputLetter = new Scanner(System.in);
+        String letter = inputLetter.nextLine().trim();
+        while (! InputController.isValidLetterTry(letter)) {
+            UI.showWrongLetterInputInfo(letter);
+            UI.showAskForLetterInput();
+            letter = inputLetter.nextLine().trim().toUpperCase();
+            if (hangman.getUsedLetters().contains(letter.toUpperCase())) {
+                System.out.println("You used letter " + letter + " before. Try again");
+                UI.showAskForLetterInput();
+                letter = inputLetter.nextLine().trim().toUpperCase();
+            }
+        }
+
+        if (!hangman.getWord().contains(letter.toUpperCase())) {
+            hangman.removeLive();
+            showWrongLetterInfo(letter);
+        }
+        if (!hangman.getUsedLetters().contains(letter.toUpperCase())) {
+            hangman.addLetterToUsedLetter(letter);
+        }
+    }
+
+    private String wordAnswer() {
         System.out.println("Try to guess all word: ");
         Scanner inputWord = new Scanner(System.in);
         String word = inputWord.nextLine().toUpperCase();
@@ -107,6 +109,47 @@ public class App {
 
     private void sayHelloToPlayer(){
         System.out.println("Hello, " + this.player.getName());
+    }
+
+    private String askForTryOption(){
+        System.out.println("Option (1) - input letter \nOption (2) - input all word");
+        Scanner inputOption = new Scanner(System.in);
+        String option = inputOption.nextLine();
+        while (!InputController.isValidOptionNumber(option, 2)){
+            UI.showIncorrectOptionInputInfo(2);
+            option = inputOption.nextLine();
+        }
+
+        return option;
+    }
+
+    private void showWrongLetterInfo(String letter) {
+        System.out.println("Letter " + letter.toUpperCase() + " is not in word to guess. You've lost 1 live.");
+        if (hangman.getLives() > 0)
+            System.out.println("Try again");
+    }
+
+    private void showWinInfo() {
+        System.out.println(hangman.dashes());
+        System.out.println("You win!");
+    }
+
+    private void showLostInfo() {
+        System.out.println("You lost!");
+        System.out.println("Correct word is " + hangman.getWord());
+    }
+
+    private void askAboutContinueGame() {
+        System.out.println("Continue? y/n");
+        Scanner inputIsContinue = new Scanner(System.in);
+        String isContinue = inputIsContinue.nextLine().toLowerCase().trim();
+        if (isContinue.equals("n")) {
+            this.isContinue = false;
+            System.out.println("See you next time!");
+        } else {
+            level = chooseLevel();
+            setHangman(level);
+        }
     }
 
     private void setHangman(Level level) {
@@ -128,9 +171,5 @@ public class App {
         while (game.getIsContinue()) {
             game.gameLoop();
         }
-
-
     }
-
-
 }

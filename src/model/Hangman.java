@@ -1,16 +1,13 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Scanner;
 import java.util.regex.*;
-import java.util.Random;
 import model.level.*;
 
 public class Hangman {
-	ArrayList<String> usedLetters = new ArrayList<String>();
-	String word;
-	Integer lives;
+	private ArrayList<String> usedLetters = new ArrayList<>();
+    private String word;
+    private Integer lives;
     
     public Hangman(Level level) {
 
@@ -21,7 +18,7 @@ public class Hangman {
     public String dashes() {
     	String used = String.join("", usedLetters);
     	Pattern p = Pattern.compile("[^ '"+ used + "]", Pattern.CASE_INSENSITIVE);
-    	return p.matcher(this.word).replaceAll("_ ");
+    	return p.matcher(this.word).replaceAll("_");
     }
 
     public String getWord() {
@@ -32,6 +29,7 @@ public class Hangman {
     public Integer getLives() {
         return this.lives;
     }
+
     public ArrayList<String> getUsedLetters() {
         return this.usedLetters;
     }
