@@ -16,7 +16,7 @@ public class Hangman {
     }
 
     public String dashes() {
-    	String used = String.join("", usedLetters);
+    	String used = getUsedLettersInStringForm();
     	Pattern p = Pattern.compile("[^ '"+ used + "]", Pattern.CASE_INSENSITIVE);
     	return p.matcher(this.word).replaceAll("_");
     }
@@ -38,7 +38,7 @@ public class Hangman {
         return String.join("", this.usedLetters);
     }
 
-    public String getUsedLettersInPrettyForm() {
+    public String getUsedLettersInPrettyFormWithCommas() {
         this.usedLetters.sort(String::compareToIgnoreCase);
         return String.join(", ", this.usedLetters );
     }

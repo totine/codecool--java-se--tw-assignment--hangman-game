@@ -40,7 +40,6 @@ public class App {
                     word = wordAnswer();
                     break;
             }
-
         }
         if (hangman.getLives() == 0)
             showLostInfo();
@@ -69,7 +68,7 @@ public class App {
     private void showHangmanInfo() {
         System.out.println("Your chances: " + hangman.getLives());
         if (hangman.getUsedLetters().size() != 0){
-            System.out.println("Letters you already used: " + hangman.getUsedLettersInPrettyForm());
+            System.out.println("Letters you already used: " + hangman.getUsedLettersInPrettyFormWithCommas());
         }
         System.out.println(hangman.dashes());
     }
