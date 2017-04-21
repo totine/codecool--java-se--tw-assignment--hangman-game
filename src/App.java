@@ -39,6 +39,10 @@ public class App {
                 case "2":
                     word = wordAnswer();
                     break;
+                case "3":
+                    System.out.println("Good bye!");
+                    System.exit(0);
+                    break;
             }
         }
         if (hangman.getLives() == 0)
@@ -114,11 +118,11 @@ public class App {
     }
 
     private String askForTryOption(){
-        System.out.println("Option (1) - input letter \nOption (2) - input all word");
+        System.out.println("Option (1) - input letter \nOption (2) - input all word \nOption (3) - exit game");
         Scanner inputOption = new Scanner(System.in);
         String option = inputOption.nextLine();
-        while (!InputController.isValidOptionNumber(option, 2)){
-            UI.showIncorrectOptionInputInfo(2);
+        while (!InputController.isValidOptionNumber(option, 3)){
+            UI.showIncorrectOptionInputInfo(3);
             option = inputOption.nextLine();
         }
 
@@ -139,6 +143,8 @@ public class App {
         System.out.println("You lost!");
         System.out.println("Correct word is " + hangman.getWord());
     }
+
+
 
     private void askAboutContinueGame() {
         System.out.println("Continue? y/n");
