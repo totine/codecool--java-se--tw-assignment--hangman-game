@@ -78,30 +78,33 @@ public class App {
         UI.showAskForLetterInput();
         Scanner inputLetter = new Scanner(System.in);
         String letter = inputLetter.nextLine().trim();
-        while (! InputController.isValidLetterTry(letter)) {
-            UI.showWrongLetterInputInfo(letter);
+        while (! InputController.isValidLetterTry(letter) || hangman.getUsedLettersInStringForm().contains(letter.toUpperCase())) {
+            if (! InputController.isValidLetterTry(letter))
+                UI.showWrongLetterInputInfo(letter);
+            else if (hangman.getUsedLettersInStringForm().contains(letter.toUpperCase()))
+                System.out.println("You used letter " + letter.toUpperCase() + " before. Try again");
             UI.showAskForLetterInput();
             letter = inputLetter.nextLine().trim().toUpperCase();
-            if (hangman.getUsedLetters().contains(letter.toUpperCase())) {
-                System.out.println("You used letter " + letter + " before. Try again");
-                UI.showAskForLetterInput();
-                letter = inputLetter.nextLine().trim().toUpperCase();
-            }
+
         }
 
         if (!hangman.getWord().contains(letter.toUpperCase())) {
             hangman.removeLive();
             showWrongLetterInfo(letter);
         }
-        if (!hangman.getUsedLetters().contains(letter.toUpperCase())) {
-            hangman.addLetterToUsedLetter(letter);
-        }
+
+        hangman.addLetterToUsedLetter(letter);
+
     }
 
     private String wordAnswer() {
         System.out.println("Try to guess all word: ");
         Scanner inputWord = new Scanner(System.in);
         String word = inputWord.nextLine().toUpperCase();
+        while (!InputController.isValidFullWordAnswer(word)){
+            System.out.println("Answer should be longer than 2 letter and should contain only letters, spaces and apostrophes. Try again: ");
+            word = inputWord.nextLine().toUpperCase();
+        }
         if (!hangman.getWord().equals(word))
             hangman.removeLive();
         return word;
@@ -130,7 +133,6 @@ public class App {
     }
 
     private void showWinInfo() {
-        System.out.println(hangman.dashes());
         System.out.println("You win!");
     }
 
@@ -142,8 +144,13 @@ public class App {
     private void askAboutContinueGame() {
         System.out.println("Continue? y/n");
         Scanner inputIsContinue = new Scanner(System.in);
-        String isContinue = inputIsContinue.nextLine().toLowerCase().trim();
-        if (isContinue.equals("n")) {
+        String isContinueAnswer = inputIsContinue.nextLine().toLowerCase().trim();
+        while (!InputController.isValidYesNoAnswer(isContinueAnswer)){
+            System.out.println("You should enter 'y' or 'n' only. Try again.");
+            isContinueAnswer = inputIsContinue.nextLine().toLowerCase().trim();
+        }
+
+        if (isContinueAnswer.equals("n")) {
             this.isContinue = false;
             System.out.println("See you next time!");
         } else {

@@ -15,4 +15,12 @@ public class InputController {
     public static Boolean isValidLetterTry(String letterInputToCheck) {
         return letterInputToCheck.matches("^[A-Za-z]$");
     }
+
+    public static Boolean isValidYesNoAnswer(String yesNoAnswerToCheck) {
+        return yesNoAnswerToCheck.matches("^[YNyn]$");
+    }
+
+    public static Boolean isValidFullWordAnswer(String fullWordAnswer) {
+        return fullWordAnswer.matches("^[A-Za-z ']{3,}$");
+    }
 }
